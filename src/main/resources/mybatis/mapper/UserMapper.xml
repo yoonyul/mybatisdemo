@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liqiaoqi.mapper.UserMapper" >
+    <!--定义resultMap的目的是为了实现查询出多个结果的方法，因为后面会用到-->
+    <resultMap id="UserResultMap" type="com.liqiaoqi.domain.User">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="age" column="age" />
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO
+        user
+        (name,age)
+        VALUES
+        (#{name},#{age})
+    </insert>
+
+    <select id="findByName" resultType="com.liqiaoqi.domain.User" >
+        SELECT *
+        FROM user
+        WHERE name = #{name}
+    </select>
+
+    <!--parameterType是传入的参数类型，resultType是返回的参数类型-->
+    <select id="findByNameAndIdAndAge" parameterType="User" resultType="User">
+        SELECT *
+        FROM user
+        where name = #{name}
+        AND id = #{id}
+        AND age= #{age}
+    </select>
+
+    <select id="findAllByName" parameterType="String" resultMap="UserResultMap">
+        SELECT *
+        FROM user
+        WHERE name = #{name}
+    </select>
+</mapper>
